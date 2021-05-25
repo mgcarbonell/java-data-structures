@@ -27,27 +27,50 @@ public class LinkedList {
     this.size = 0;
   }
 
-  // insert a node at position...
-  public void insert(int n, int index) {
+  // adds to the beginning
+  public void addAtBeginning(int n) {
+    if (size() == 0) {
+      head = new Node(n);
+      tail = head;
+    } else {
+      Node.temp = new Node(n);
+      temp.next = head;
+      head = temp;
+    }
+
+  }
+
+  // adds at the end of the list
+  public void addAtEnd(int n) {
+    Node node = new Node(size());
+    tail.next = node;
+    node.prev = tail;
+    tail = tail.next;
+  }
+
+  // insert a node with the value of n at position of index...
+  public void add(int n, int index) {
     // if the index is 0 we are adding at the beginning.
     if (index == 0) {
       // If the size is 0 && index is 0 we have an empty list:
-      if (size() == 0) {
-        // new Node is the head and the tail
-        head = new Node(n);
-        tail = head;
-      } else {
-        // temp variable to hold our node and swap
-        Node temp = new Node(n);
-        temp.next = head;
-        head = temp;
-      }
+      addAtBeginning(0);
     } else if (index == size()) {
-      // if we insert at the end, the index is equal to the size (last elem)
+      // size() will return the last elem of list
+      // we're adding at the end
+      addAtEnd(size());
+    } else {
+      Node curr = head;
+      int i = 0;
+      while (i++ < index) {
+        curr = curr.next;
+      }
+      // make the new node
       Node node = new Node(n);
-      tail.next = node;
-      node.prev = tail;
-      tail = tail.next;
+      //
+      node.next = curr;
+      node.prev = curr.prev;
+      curr.prev.next = node;
+      curr.prev = node;
     }
     size++;
   }
